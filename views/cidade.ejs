@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= municipio %></title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        .positive { color: green; }
+        .negative { color: red; }
+    </style>
+</head>
+<body>
+    <h1><%= municipio %></h1>
+    <p>Código do IGBE: <%= codigo %></p>
+    <p>Tipo de Bacia: <%= bacia %></p>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Ano</th>
+                <th>Área (ha)</th>
+                <th>Alteração (Valor Absoluto, em ha)</th>
+                <th>Alteração (Valor Relativo, em %)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% dados.forEach(dado => { %>
+                <tr>
+                    <td><%= dado["NOME"] %></td>
+                    <td><%= dado["ANO"] %></td>
+                    <td><%= dado["AREA (HA)"] %></td>
+                    <td class="comparacao"><%= dado["ABSOLUTO"] %></td>
+                    <td class="comparacao"><%= dado["RELATIVO"] %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const numericCells = document.querySelectorAll('.comparacao');
+            
+            numericCells.forEach(cell => {
+                const value = parseFloat(cell.textContent);
+                if (value > 0) {
+                    cell.classList.add('positive');
+                } else if (value < 0) {
+                    cell.classList.add('negative');
+                } else if (value === 0) {
+                    cell.textContent = '\u2014';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
