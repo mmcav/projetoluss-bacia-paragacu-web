@@ -13,8 +13,8 @@
     }
   ],
   "functions": {
-    "/app.js": {
-      "maxDuration": 60  // Adjust if needed
+    "app.js": {
+      "maxDuration": 60
     }
   }
 }
