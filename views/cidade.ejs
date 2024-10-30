@@ -1,20 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= municipio %></title>
-    <style>
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid black; padding: 8px; text-align: left; }
-        .positive { color: green; }
-        .negative { color: red; }
-    </style>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+    <a href="/">Voltar à pagina anterior</a>
     <h1><%= municipio %></h1>
-    <p>Código do IGBE: <%= codigo %></p>
-    <p>Tipo de Bacia: <%= bacia %></p>
+    <p>Código do IGBE: <em><%= codigo %></em></p>
+    <p>Tipo de Bacia: <em><%= bacia %></em></p>
     <table>
         <thead>
             <tr>
@@ -30,7 +26,7 @@
                 <tr>
                     <td><%= dado["NOME"] %></td>
                     <td><%= dado["ANO"] %></td>
-                    <td><%= dado["AREA (HA)"] %></td>
+                    <td name="area"><%= dado["AREA (HA)"] %></td>
                     <td class="comparacao"><%= dado["ABSOLUTO"] %></td>
                     <td class="comparacao"><%= dado["RELATIVO"] %></td>
                 </tr>
@@ -38,21 +34,6 @@
         </tbody>
     </table>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const numericCells = document.querySelectorAll('.comparacao');
-            
-            numericCells.forEach(cell => {
-                const value = parseFloat(cell.textContent);
-                if (value > 0) {
-                    cell.classList.add('positive');
-                } else if (value < 0) {
-                    cell.classList.add('negative');
-                } else if (value === 0) {
-                    cell.textContent = '\u2014';
-                }
-            });
-        });
-    </script>
+    <script src="/script.js"></script>
 </body>
 </html>

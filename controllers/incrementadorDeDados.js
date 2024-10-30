@@ -1,4 +1,4 @@
-const comparador = (data) => {
+const incrementadorDeDados = (data) => {
     const results = {};
 
     data.forEach(item => {
@@ -25,8 +25,8 @@ const comparador = (data) => {
             "AREA (HA)": firstYearData['AREA (HA)'],
             NOME: NOME,
             BACIA: firstYearData.BACIA,
-            ABSOLUTO: 0,
-            RELATIVO: '0.00',
+            ABSOLUTO: "",
+            RELATIVO: "",
         });
 
         years.forEach((year, index) => {
@@ -35,7 +35,7 @@ const comparador = (data) => {
                 const currentYearData = results[NOME][year];
 
                 const absoluteChange = currentYearData['AREA (HA)'] - previousYearData['AREA (HA)'];
-                const relativeChange = ((absoluteChange / previousYearData['AREA (HA)']) * 100).toFixed(2);
+                const relativeChange = ((absoluteChange / previousYearData['AREA (HA)']) * 100);
                 
                 mergedResults.push({
                     MUNICIPIO: currentYearData.MUNICIPIO,
@@ -54,4 +54,4 @@ const comparador = (data) => {
     return mergedResults;
 }
 
-module.exports = comparador;
+module.exports = incrementadorDeDados;
