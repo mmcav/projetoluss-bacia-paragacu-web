@@ -2,9 +2,6 @@ const refereciaNomes = require('../utils/referenciaNomes');
 const referenciaAnos = require('../utils/referenciaAnos');
 
 const organizadorDadosDuasCidades = (dados, dadosAdicionais) => {
-    const municipio1 = dados[0]['MUNICIPIO'];
-    const municipio2 = dadosAdicionais[0]['MUNICIPIO'];
-  
     const listaFinal = [];
     for (const nome of refereciaNomes) {
         for (const ano of referenciaAnos) {
@@ -30,7 +27,9 @@ const organizadorDadosDuasCidades = (dados, dadosAdicionais) => {
                 dadoFinal["ABSOLUTOADICIONAL"] = dadoAdicionalEncontrado["ABSOLUTO"];
                 dadoFinal["RELATIVOADICIONAL"] = dadoAdicionalEncontrado["RELATIVO"];
             }
-            listaFinal.push(dadoFinal);
+            if (dadoEncontrado || dadoAdicionalEncontrado) {
+                listaFinal.push(dadoFinal);
+            }
         }
     }
 

@@ -1,6 +1,6 @@
 const express = require('express');
-const renderMunicipio = require('../controllers/cidadeController');
-const renderDoisMunicipios = require('../controllers/duasCidadesController')
+const renderMunicipio = require('../controllers/municipioController');
+const renderDoisMunicipios = require('../controllers/doisMunicipiosController')
 
 const router = express.Router();
 

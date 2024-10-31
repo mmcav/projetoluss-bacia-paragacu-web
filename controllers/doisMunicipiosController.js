@@ -1,18 +1,18 @@
-const getDadosMunicipio = require('../models/cidadeModel');
+const getDadosMunicipio = require('../models/municipioModel');
 const referenciaMunicipios = require('../utils/referenciaMunicipios');
 const normalizarTexto = require('../utils/normalizarTexto');
 const incrementadorDeDados = require('./incrementadorDeDados');
-const organizadorDadosDuasCidades = require('./organizadorDadosDuasCidades');
+const organizadorDadosDoisMunicipios = require('./organizadorDadosDoisMunicipios');
 
 const renderDoisMunicipios = (req, res) => {
     const municipioParametro = req.params.municipio;
     const municipioParametroAdicional = req.params.municipioadicional;
     let municipioBuscar, municipioBuscarAdicional;
     for (const municipio of referenciaMunicipios) {
-        if (normalizarTexto(municipio) === normalizarTexto(municipioParametro)) {
+        if (!municipioBuscar && normalizarTexto(municipio) === normalizarTexto(municipioParametro)) {
             municipioBuscar = municipio;
         }
-        if (normalizarTexto(municipio) === normalizarTexto(municipioParametroAdicional)) {
+        if (!municipioBuscarAdicional && normalizarTexto(municipio) === normalizarTexto(municipioParametroAdicional)) {
             municipioBuscarAdicional = municipio;
         }
         if (municipioBuscar && municipioBuscarAdicional) {
@@ -30,7 +30,7 @@ const renderDoisMunicipios = (req, res) => {
                     } else {
                         const dadosFinais = incrementadorDeDados(dados);
                         const dadosFinaisAdicionais = incrementadorDeDados(dadosAdicionais);
-                        const dadosTabela = organizadorDadosDuasCidades(dadosFinais, dadosFinaisAdicionais);
+                        const dadosTabela = organizadorDadosDoisMunicipios(dadosFinais, dadosFinaisAdicionais);
                         res.render('doisMunicipios', {
                             municipio: municipioBuscar,
                             codigo: dadosFinais[0]['CODIGO'],
@@ -41,7 +41,7 @@ const renderDoisMunicipios = (req, res) => {
                             baciaadicional: dadosFinaisAdicionais[0]['BACIA'],
                             dadosadicionais: dadosFinaisAdicionais,
                             dadostabela: dadosTabela,
-                            voltar: `/municipios/${municipioParametro}`
+                            voltar: `/municipios/${encodeURIComponent(municipioParametro)}`
                         });
                     }
                 });

@@ -1,4 +1,4 @@
-const getDadosMunicipio = require('../models/cidadeModel');
+const getDadosMunicipio = require('../models/municipioModel');
 const referenciaMunicipios = require('../utils/referenciaMunicipios');
 const normalizarTexto = require('../utils/normalizarTexto');
 const incrementadorDeDados = require('./incrementadorDeDados');
@@ -18,7 +18,7 @@ const renderMunicipio = (req, res) => {
                 res.status(500).send(err.message);
             } else {
                 const dadosFinais = incrementadorDeDados(dados);
-                res.render('cidade', {
+                res.render('municipio', {
                     municipio: municipioBuscar,
                     codigo: dadosFinais[0]['CODIGO'],
                     bacia: dadosFinais[0]['BACIA'],
