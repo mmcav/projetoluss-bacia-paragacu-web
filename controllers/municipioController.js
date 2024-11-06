@@ -22,7 +22,8 @@ const renderMunicipio = (req, res) => {
                     municipio: municipioBuscar,
                     codigo: dadosFinais[0]['CODIGO'],
                     bacia: dadosFinais[0]['BACIA'],
-                    dados: dadosFinais
+                    dados: dadosFinais,
+                    municipios: referenciaMunicipios.filter(municipio => municipio !== municipioBuscar)
                 });
             }
         });

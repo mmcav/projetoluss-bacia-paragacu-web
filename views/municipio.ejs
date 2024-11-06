@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= municipio %></title>
+    <title>Dados de <%= municipio %></title>
+    <script src="/normalizarTexto.js" defer></script> 
+    <script src="/buscaMunicipios.js" defer></script>
+    <script src="/formatarDadosDaTabela.js" defer></script> 
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -11,6 +14,17 @@
     <h1><%= municipio %></h1>
     <p>Código do IGBE: <em><%= codigo %></em></p>
     <p>Tipo de Bacia: <em><%= bacia %></em></p>
+
+    <p>Para comparar os dados de <%= municipio %> com outro município, digite o nome do município e selecione a sua opção:</p>
+    
+    <input type="text" id="buscaMunicipio" placeholder="Digite o nome do município...">
+    
+    <ul id="listaMunicipios" class="lista-municipios" style="display:none;"></ul>
+    
+    <script>
+        window.municipios = <%- JSON.stringify(municipios) %>;
+    </script>
+
     <table>
         <thead>
             <tr>
@@ -34,6 +48,5 @@
         </tbody>
     </table>
 
-    <script src="/script.js"></script>
 </body>
 </html>
