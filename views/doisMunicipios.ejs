@@ -7,42 +7,52 @@
     <script src="/formatarDadosDaTabela.js" defer></script>
     <link rel="stylesheet" href="/styles.css">
 </head>
-<body>
-    <a href=<%= voltar %>>Voltar à pagina anterior</a>
-    <h1><%= municipio %></h1>
-    <p>Código do IGBE: <em><%= codigo %></em></p>
-    <p>Tipo de Bacia: <em><%= bacia %></em></p>
-    <h2><%= municipioadicional %></h2>
-    <p>Código do IGBE: <em><%= codigoadicional %></em></p>
-    <p>Tipo de Bacia: <em><%= baciaadicional %></em></p>
-    <table>
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Ano</th>
-                <th><%= municipio %><br>Área (ha)</th>
-                <th><%= municipio %><br>Alteração da Área (Valor Absoluto, em ha)</th>
-                <th><%= municipio %><br>Alteração da Área (Valor Relativo, em %)</th>
-                <th><%= municipioadicional %><br>Área (ha)</th>
-                <th><%= municipioadicional %><br>Alteração da Área (Valor Absoluto, em ha)</th>
-                <th><%= municipioadicional %><br>Alteração da Área (Valor Relativo, em %)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% dadostabela.forEach(dado => { %>
+<body id="top">
+    <div class="container">
+        <a href=<%= voltar %>>Voltar à pagina anterior</a>
+        <br>
+        <h1>Comparando <%= municipio %> e <%= municipioadicional %></h1>
+        <br>
+        <h2><%= municipio %></h2>
+        <br>
+        <h3>Código do IGBE: <em><%= codigo %></em></h3>
+        <h3>Tipo de Bacia: <em><%= bacia %></em></h3>
+        <br>
+        <h2><%= municipioadicional %></h2>
+        <br>
+        <h3>Código do IGBE: <em><%= codigoadicional %></em></h3>
+        <h3>Tipo de Bacia: <em><%= baciaadicional %></em></h3>
+        <br>
+        <table>
+            <thead>
                 <tr>
-                    <td><%= dado["NOME"] %></td>
-                    <td><%= dado["ANO"] %></td>
-                    <td name="area"><%= dado["AREA (HA)"] %></td>
-                    <td class="comparacao"><%= dado["ABSOLUTO"] %></td>
-                    <td class="comparacao"><%= dado["RELATIVO"] %></td>
-                    <td name="area"><%= dado["AREA (HA) ADICIONAL"] %></td>
-                    <td class="comparacao"><%= dado["ABSOLUTOADICIONAL"] %></td>
-                    <td class="comparacao"><%= dado["RELATIVOADICIONAL"] %></td>
+                    <th>Nome</th>
+                    <th>Ano</th>
+                    <th><%= municipio %><br>Área (ha)</th>
+                    <th><%= municipio %><br>Alteração da Área (Valor Absoluto, em ha)</th>
+                    <th><%= municipio %><br>Alteração da Área (Valor Relativo, em %)</th>
+                    <th><%= municipioadicional %><br>Área (ha)</th>
+                    <th><%= municipioadicional %><br>Alteração da Área (Valor Absoluto, em ha)</th>
+                    <th><%= municipioadicional %><br>Alteração da Área (Valor Relativo, em %)</th>
                 </tr>
-            <% }) %>
-        </tbody>
-    </table>
-
+            </thead>
+            <tbody>
+                <% dadostabela.forEach(dado => { %>
+                    <tr>
+                        <td><%= dado["NOME"] %></td>
+                        <td><%= dado["ANO"] %></td>
+                        <td name="area"><%= dado["AREA (HA)"] %></td>
+                        <td class="comparacao"><%= dado["ABSOLUTO"] %></td>
+                        <td class="comparacao"><%= dado["RELATIVO"] %></td>
+                        <td name="area"><%= dado["AREA (HA) ADICIONAL"] %></td>
+                        <td class="comparacao"><%= dado["ABSOLUTOADICIONAL"] %></td>
+                        <td class="comparacao"><%= dado["RELATIVOADICIONAL"] %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <br>
+        <a href="#top">Voltar ao Topo da Página</a>
+    </div>
 </body>
 </html>

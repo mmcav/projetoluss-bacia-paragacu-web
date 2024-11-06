@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados de Todos os Municípios</title>
+    <script src="/normalizarTexto.js" defer></script>
+    <script src="/formatarDadosDaTabela.js" defer></script>
+    <script src="/filtrarTabela.js" defer></script>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body id="top">
+    <div class="container">
+        <a href="/">Voltar à pagina anterior</a>
+        <br>
+        <h1>Dados de Todos os Municípios</h1>
+        <br>
+        <select id="dropdownMenu" onchange="mudarPlaceholder()">
+            <option value="municipio" selected>Município</option>
+            <option value="codigo">Código do IBGE</option>
+            <option value="nome">Nome</option>
+            <option value="bacia">Bacia</option>
+        </select>
+        <input type="text" id="searchInput" placeholder="Pesquisar por Município..." onkeyup="filtrarTabela()">
+        <button onclick="filtrarTabela()">Todos os Anos</button>
+        <button onclick="filtrarTabela(filtroAno = '2000')">2000</button>
+        <button onclick="filtrarTabela(filtroAno = '2010')">2010</button>
+        <button onclick="filtrarTabela(filtroAno = '2022')">2022</button>
+        <br>
+        <table>
+            <thead>
+                <tr>
+                    <th>Município</th>
+                    <th>Código do IBGE</th>
+                    <th>Ano</th>
+                    <th>Área (ha)</th>
+                    <th>Nome</th>
+                    <th>Bacia</th>
+                </tr>
+            </thead>
+            <tbody id="data-table">
+                <% dados.forEach(dado => { %>
+                    <tr>
+                        <td><%= dado["MUNICIPIO"] %></td>
+                        <td><%= dado["CODIGO"] %></td>
+                        <td><%= dado["ANO"] %></td>
+                        <td name="area"><%= dado["AREA (HA)"] %></td>
+                        <td><%= dado["NOME"] %></td>
+                        <td><%= dado["BACIA"] %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <br>
+        <a href="#top">Voltar ao Topo da Página</a>
+    </div>
+</body>
+</html>

@@ -1,15 +1,101 @@
-/* tabelas, dados comparativos */
+html {
+    scroll-behavior: smooth;
+  }
+  
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    width: 90%;
+    /* Use 90% para maior responsividade */
+    max-width: 1200px;
+    /* Define um limite máximo para telas grandes */
+    margin: 50px auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2, 
+h3 {
+    text-align: center;
+}
+
+input[type="text"] {
+    width: 100%;
+    /* Largura total */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
 
 table {
-    border-collapse: collapse;
     width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-th, td {
-    border: 1px solid black;
-    padding: 8px;
+table th,
+table td {
+    padding: 12px;
     text-align: left;
+    border: 1px solid #ddd;
 }
+
+table th {
+    background-color: #f2f2f2;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Media Queries para telas menores */
+@media (max-width: 768px) {
+
+    table,
+    table th,
+    table td {
+        font-size: 14px;
+        /* Reduz o tamanho da fonte em telas menores */
+    }
+
+    input[type="text"] {
+        font-size: 14px;
+        /* Ajusta o tamanho da fonte da barra de pesquisa */
+    }
+}
+
+@media (max-width: 480px) {
+
+    table,
+    table th,
+    table td {
+        font-size: 12px;
+        /* Reduz ainda mais o tamanho da fonte para telas muito pequenas */
+    }
+
+    h1 {
+        font-size: 24px;
+        /* Tamanho do título em telas pequenas */
+    }
+}
+
+/* dados comparativos de tabelas */
 
 .positivo {
     color: green;

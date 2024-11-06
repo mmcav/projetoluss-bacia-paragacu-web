@@ -23,7 +23,7 @@ const renderMunicipio = (req, res) => {
                     codigo: dadosFinais[0]['CODIGO'],
                     bacia: dadosFinais[0]['BACIA'],
                     dados: dadosFinais,
-                    municipios: referenciaMunicipios.filter(municipio => municipio !== municipioBuscar)
+                    municipios: referenciaMunicipios.slice().sort().filter(municipio => municipio !== municipioBuscar)
                 });
             }
         });

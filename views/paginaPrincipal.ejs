@@ -9,16 +9,17 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Dados dos Municípios da Bacia do Rio Paraguaçu</h1>
-
-    <a href="/geral">Clique aqui para ver todos os dados disponíveis.</a>
-
-    <p>Para ver os dados de um município específico, digite o nome do município e selecione a sua opção:</p>
-    
-    <input type="text" id="buscaMunicipio" placeholder="Digite o nome do município...">
-    
-    <ul id="listaMunicipios" class="lista-municipios" style="display:none;"></ul>
-    
+    <div class="container">
+        <h1>Dados dos Municípios da Bacia do Rio Paraguaçu</h1>
+        <br>
+        <a href="/geral">Clique aqui para ver todos os dados disponíveis.</a>
+        <br>
+        <br>
+        <p>Para ver os dados de um município específico, digite o nome do município e selecione a sua opção:</p>
+        <br>
+        <input type="text" id="buscaMunicipio" placeholder="Digite o nome do município...">
+        <ul id="listaMunicipios" class="lista-municipios" style="display:none;"></ul>
+    </div>
     <script>
         window.municipios = <%- JSON.stringify(municipios) %>;
     </script>
