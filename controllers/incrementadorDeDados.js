@@ -1,57 +1,57 @@
-const incrementadorDeDados = (data) => {
-    const results = {};
+const incrementadorDeDados = (dados) => {
+    const resultados = {};
 
-    data.forEach(item => {
+    dados.forEach(item => {
         const { NOME, ANO } = item;
 
-        if (!results[NOME]) {
-            results[NOME] = {};
+        if (!resultados[NOME]) {
+            resultados[NOME] = {};
         }
 
-        results[NOME][ANO] = item;
+        resultados[NOME][ANO] = item;
     });
 
-    const mergedResults = [];
+    const resultadosFinais = [];
 
-    Object.keys(results).forEach(NOME => {
-        const years = Object.keys(results[NOME]).sort((a, b) => a - b);
+    Object.keys(resultados).forEach(NOME => {
+        const anos = Object.keys(resultados[NOME]).sort((a, b) => a - b);
         
-        const firstYearData = results[NOME][years[0]];
+        const dadosPrimeiroAno = resultados[NOME][anos[0]];
 
-        mergedResults.push({
-            MUNICIPIO: firstYearData.MUNICIPIO,
-            ANO: firstYearData.ANO,
-            CODIGO: firstYearData.CODIGO,
-            "AREA (HA)": firstYearData['AREA (HA)'],
+        resultadosFinais.push({
+            MUNICIPIO: dadosPrimeiroAno.MUNICIPIO,
+            ANO: dadosPrimeiroAno.ANO,
+            CODIGO: dadosPrimeiroAno.CODIGO,
+            "AREA (HA)": dadosPrimeiroAno['AREA (HA)'],
             NOME: NOME,
-            BACIA: firstYearData.BACIA,
+            BACIA: dadosPrimeiroAno.BACIA,
             ABSOLUTO: "",
             RELATIVO: "",
         });
 
-        years.forEach((year, index) => {
-            if (index > 0) {
-                const previousYearData = results[NOME][years[index - 1]];
-                const currentYearData = results[NOME][year];
+        anos.forEach((ano, idx) => {
+            if (idx > 0) {
+                const dadosAnoAnterior = resultados[NOME][anos[idx - 1]];
+                const dadosAnoAtual = resultados[NOME][ano];
 
-                const absoluteChange = currentYearData['AREA (HA)'] - previousYearData['AREA (HA)'];
-                const relativeChange = ((absoluteChange / previousYearData['AREA (HA)']) * 100);
+                const mudancaAbsoluta = dadosAnoAtual['AREA (HA)'] - dadosAnoAnterior['AREA (HA)'];
+                const mudancaRelativa = ((mudancaAbsoluta / dadosAnoAnterior['AREA (HA)']) * 100);
                 
-                mergedResults.push({
-                    MUNICIPIO: currentYearData.MUNICIPIO,
-                    ANO: currentYearData.ANO,
-                    CODIGO: currentYearData.CODIGO,
-                    "AREA (HA)": currentYearData['AREA (HA)'],
+                resultadosFinais.push({
+                    MUNICIPIO: dadosAnoAtual.MUNICIPIO,
+                    ANO: dadosAnoAtual.ANO,
+                    CODIGO: dadosAnoAtual.CODIGO,
+                    "AREA (HA)": dadosAnoAtual['AREA (HA)'],
                     NOME: NOME,
-                    BACIA: currentYearData.BACIA,
-                    ABSOLUTO: absoluteChange,
-                    RELATIVO: relativeChange,
+                    BACIA: dadosAnoAtual.BACIA,
+                    ABSOLUTO: mudancaAbsoluta,
+                    RELATIVO: mudancaRelativa,
                 });
             }
         });
     });
 
-    return mergedResults;
+    return resultadosFinais;
 }
 
 module.exports = incrementadorDeDados;
