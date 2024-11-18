@@ -123,3 +123,9 @@ table tr:nth-child(even) {
 .lista-municipios li:hover {
     background-color: #f0f0f0;
 }
+
+/* mapa */
+
+#map {
+    height: 600px;
+}

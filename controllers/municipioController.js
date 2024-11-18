@@ -1,5 +1,6 @@
 const getDadosMunicipio = require('../models/municipioModel');
 const referenciaMunicipios = require('../utils/referenciaMunicipios');
+const referenciaMunicipiosComCodigo = require('../utils/referenciaMunicipiosComCodigo');
 const normalizarTexto = require('../utils/normalizarTexto');
 const incrementadorDeDados = require('./incrementadorDeDados');
 
@@ -23,7 +24,8 @@ const renderMunicipio = (req, res) => {
                     codigo: dadosFinais[0]['CODIGO'],
                     bacia: dadosFinais[0]['BACIA'],
                     dados: dadosFinais,
-                    municipios: referenciaMunicipios.slice().sort().filter(municipio => municipio !== municipioBuscar)
+                    municipios: referenciaMunicipios.slice().sort().filter(municipio => municipio !== municipioBuscar),
+                    municipiosComCodigo: referenciaMunicipiosComCodigo
                 });
             }
         });

@@ -7,6 +7,7 @@
     <script src="/normalizarTexto.js" defer></script>
     <script src="/buscaMunicipios.js" defer></script>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
     <div class="container">
@@ -19,9 +20,53 @@
         <br>
         <input type="text" id="buscaMunicipio" placeholder="Digite o nome do município...">
         <ul id="listaMunicipios" class="lista-municipios" style="display:none;"></ul>
+        <br>
+        <p>Ou, se preferir, procure o município no mapa abaixo:</p>
+        <br>
+        <div id="map"></div>
     </div>
+
     <script>
         window.municipios = <%- JSON.stringify(municipios) %>;
     </script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        var municipiosComCodigo = <%- JSON.stringify(municipiosComCodigo) %>;
+
+        var objetoMunicipiosComCodigo = {};
+        municipiosComCodigo.forEach(function(municipio) {
+            objetoMunicipiosComCodigo[municipio.CODIGO] = municipio.MUNICIPIO;
+        });
+
+        fetch('/data/MunicipiosBacia.geojson')
+            .then(response => response.json())
+            .then(geojson => {
+                var map = L.map('map');
+
+                var bounds = L.geoJSON(geojson).getBounds();
+                map.fitBounds(bounds);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                L.geoJSON(geojson, {
+                    onEachFeature: function (feature, layer) {
+                        var codigoMapa = feature.properties.Codigo;
+                        layer.on('click', function (e) {
+                            var nomeDoMunicipio = objetoMunicipiosComCodigo[codigoMapa];
+                            if (nomeDoMunicipio) {
+                                layer.bindPopup(`<a href="/municipios/${nomeDoMunicipio}">${nomeDoMunicipio}</a>`);
+                            } else {
+                                layer.bindPopup('Nome do município não encontrado.').openPopup();
+                            }
+                        });
+                    }
+                }).addTo(map);
+
+            })
+            .catch(err => console.error('Erro ao carregar o GeoJSON: ', err));
+    </script>
+
 </body>
 </html>
