@@ -7,7 +7,8 @@
     <script src="/normalizarTexto.js" defer></script>
     <script src="/formatarDadosDaTabela.js" defer></script>
     <script src="/filtrarTabela.js" defer></script>
-    <script src="/balaoDeAjuda.js" defer></script>
+    <script src="/botaoDeAjuda.js" defer></script>
+    <script src="/botaoTopo.js" defer></script>
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body id="top">
@@ -57,12 +58,16 @@
             </tbody>
         </table>
         <br>
+
         <button id="help-button" class="help-button">?</button>
         <div id="balloon" class="balloon">
             <div id="balloon-close" class="balloon-close">x</div>
             <p>Deseja filtrar os dados da tabela? Escolha o seu parâmetro (município, código do IBGE, nome ou bacia) e comece a digitar. A tabela retornará os dados filtrados imediatamente!<br><br>Use os botões com os valores dos anos para filtrar os dados da tabela também por ano.</p>
         </div>
-        <a href="#top">Voltar ao Topo da Página</a>
+
+        <a href="#top" class="back-to-top">
+            <img src="/topo.png" alt="Volte ao Topo da Página" />
+        </a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

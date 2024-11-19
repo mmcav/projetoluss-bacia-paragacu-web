@@ -7,7 +7,8 @@
     <script src="/normalizarTexto.js" defer></script> 
     <script src="/buscaMunicipios.js" defer></script>
     <script src="/formatarDadosDaTabela.js" defer></script>
-    <script src="/balaoDeAjuda.js" defer></script>
+    <script src="/botaoDeAjuda.js" defer></script>
+    <script src="/botaoTopo.js" defer></script>
     <link rel="stylesheet" href="/styles.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
@@ -56,12 +57,16 @@
             </tbody>
         </table>
         <br>
+
         <button id="help-button" class="help-button">?</button>
         <div id="balloon" class="balloon">
             <div id="balloon-close" class="balloon-close">x</div>
             <p>Deseja comparar os dados deste município com os dados de outro município? Comece a digitar o nome do município na caixa de pesquisa e verá uma lista de sugestões. Quando encontrar o município desejado, basta selecioná-lo.<br><br>Ou se preferir, utilize o mapa da região da bacia hidrográfica. Clique ou toque sobre o município desejado e verá um balão com o nome do mesmo, e o link para acessar os dados.</p>
         </div>
-        <a href="#top">Voltar ao Topo da Página</a>
+
+        <a href="#top" class="back-to-top">
+            <img src="/topo.png" alt="Volte ao Topo da Página" />
+        </a>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
