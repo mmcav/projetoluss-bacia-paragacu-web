@@ -7,6 +7,7 @@
     <script src="/normalizarTexto.js" defer></script>
     <script src="/formatarDadosDaTabela.js" defer></script>
     <script src="/filtrarTabela.js" defer></script>
+    <script src="/balaoDeAjuda.js" defer></script>
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body id="top">
@@ -14,6 +15,10 @@
         <a href="/">Voltar à pagina anterior</a>
         <br>
         <h1>Dados de Todos os Municípios</h1>
+        <br>
+        <div style="width: 80%; margin: auto;">
+            <canvas id="grafico"></canvas>
+        </div>
         <br>
         <select id="dropdownMenu" onchange="mudarPlaceholder()">
             <option value="municipio" selected>Município</option>
@@ -52,7 +57,79 @@
             </tbody>
         </table>
         <br>
+        <button id="help-button" class="help-button">?</button>
+        <div id="balloon" class="balloon">
+            <div id="balloon-close" class="balloon-close">x</div>
+            <p>Deseja filtrar os dados da tabela? Escolha o seu parâmetro (município, código do IBGE, nome ou bacia) e comece a digitar. A tabela retornará os dados filtrados imediatamente!<br><br>Use os botões com os valores dos anos para filtrar os dados da tabela também por ano.</p>
+        </div>
         <a href="#top">Voltar ao Topo da Página</a>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const dadosGrafico = <%- JSON.stringify(dadosGrafico) %>;
+
+        const rotulos = [...new Set(dadosGrafico.map(item => item.NOME))];
+        const anos = [...new Set(dadosGrafico.map(item => item.ANO))];
+
+        const datasets = anos.map((ano, index) => {
+            const dadosAnuais = rotulos.map(rotulo => {
+                const resultado = dadosGrafico.find(item => item.NOME === rotulo && item.ANO === ano);
+                return resultado ? resultado["SOMA AREA"] : 0;
+            });
+
+            return {
+                label: `Ano ${ano}`,
+                data: dadosAnuais,
+                backgroundColor: `rgba(${50 + index * 100}, ${100 + index * 50}, 200, 1)`,
+                borderColor: `rgba(${50 + index * 100}, ${100 + index * 50}, 200, 1)`,
+                borderWidth: 1
+            };
+        });
+
+        const ctx = document.getElementById('grafico').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: rotulos,
+                datasets: datasets
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                const year = datasets[tooltipItem.datasetIndex].label.split(' ')[1];
+                                const value = tooltipItem.raw;
+                                return `Ano: ${year}, Área (ha): ${value}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: false,
+                        title: {
+                            display: true,
+                            text: 'Soma das Áreas (ha)'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Nome'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>

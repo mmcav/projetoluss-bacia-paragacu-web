@@ -129,3 +129,56 @@ table tr:nth-child(even) {
 #map {
     height: 600px;
 }
+
+/* balão de ajuda */
+
+.help-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #007BFF;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+  
+.help-button:hover {
+    background-color: #0056b3;
+}
+  
+.balloon {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 250px;
+    display: none;
+    z-index: 999;
+}
+  
+.balloon-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+  
+.balloon p {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: #333;
+}
