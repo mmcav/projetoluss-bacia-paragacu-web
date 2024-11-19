@@ -71,6 +71,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <script>
         const dadosGrafico = <%- JSON.stringify(dadosGrafico) %>;
 
@@ -86,23 +87,46 @@
             return {
                 label: `Ano ${ano}`,
                 data: dadosAnuais,
-                backgroundColor: `rgba(${50 + index * 100}, ${100 + index * 50}, 200, 1)`,
+                backgroundColor: `rgba(${50 + index * 100}, ${100 + index * 50}, 200, 0.8)`,
                 borderColor: `rgba(${50 + index * 100}, ${100 + index * 50}, 200, 1)`,
-                borderWidth: 1
+                borderWidth: 2,
+                barThickness: 18,
+                maxBarThickness: 20
             };
         });
 
         const ctx = document.getElementById('grafico').getContext('2d');
-        new Chart(ctx, {
+        const chart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: rotulos,
                 datasets: datasets
             },
+            plugins: [ChartDataLabels],
             options: {
                 indexAxis: 'y',
                 responsive: true,
+                aspectRatio: 0.7,
                 plugins: {
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'right',
+                        color: '#000',
+                        formatter: (value) => value.toFixed(2).replace('.', ',')
+                    },
+                    title: {
+                        display: true,
+                        text: 'Soma das Áreas por Nome e Separadas por Ano',
+                        font: {
+                            size: 28,
+                            weight: 'bold'
+                        },
+                        color: '#333',
+                        padding: {
+                            top: 10,
+                            bottom: 10
+                        }
+                    },
                     legend: {
                         display: true,
                         position: 'top'
@@ -130,7 +154,9 @@
                         title: {
                             display: true,
                             text: 'Nome'
-                        }
+                        },
+                        categoryPercentage: 0.9,
+                        barPercentage: 0.8
                     }
                 }
             }
