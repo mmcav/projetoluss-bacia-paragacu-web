@@ -17,7 +17,7 @@
         <br>
         <h1>Dados de Todos os Municípios</h1>
         <br>
-        <div style="width: 80%; margin: auto;">
+        <div style="width: 90%; margin: auto;">
             <canvas id="grafico"></canvas>
         </div>
         <br>
@@ -75,8 +75,8 @@
     <script>
         const dadosGrafico = <%- JSON.stringify(dadosGrafico) %>;
 
-        const rotulos = [...new Set(dadosGrafico.map(item => item.NOME))];
-        const anos = [...new Set(dadosGrafico.map(item => item.ANO))];
+        const rotulos = [...new Set(dadosGrafico.map(item => item.NOME))].toSorted((a,b) => a.localeCompare(b, 'pt-BR'));
+        const anos = [...new Set(dadosGrafico.map(item => item.ANO))].toSorted();
 
         const datasets = anos.map((ano, index) => {
             const dadosAnuais = rotulos.map(rotulo => {
@@ -95,18 +95,38 @@
             };
         });
 
-        const ctx = document.getElementById('grafico').getContext('2d');
+        const grafico = document.getElementById('grafico');
+        grafico.height = rotulos.length * datasets[0].maxBarThickness + 50;
+
+        const ctx = grafico.getContext('2d');
+        const fullBorderPlugin = {
+            id: 'fullBorderPlugin',
+            beforeDraw: (chart) => {
+                const ctx = chart.ctx;
+                const canvas = chart.canvas;
+
+                ctx.save();
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(0, 0, canvas.width, canvas.height);
+                ctx.restore();
+            }
+        };
         const chart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: rotulos,
                 datasets: datasets
             },
-            plugins: [ChartDataLabels],
+            plugins: [ChartDataLabels, fullBorderPlugin],
             options: {
                 indexAxis: 'y',
                 responsive: true,
-                aspectRatio: 0.7,
+                layout: {
+                    padding: {
+                        right: 60
+                    }
+                },
                 plugins: {
                     datalabels: {
                         anchor: 'end',

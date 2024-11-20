@@ -21,7 +21,113 @@
         <h2>Código do IGBE: <em><%= codigo %></em></h2>
         <h2>Tipo de Bacia: <em><%= bacia %></em></h2>
         <br>
+        <div style="width: 90%; margin: auto;">
+            <canvas id="grafico"></canvas>
+        </div>
+        <br>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+        <script>
+            const dadosGrafico = <%- JSON.stringify(dados) %>;
+
+            const rotulos = [...new Set(dadosGrafico.map(item => item.NOME))].toSorted((a,b) => a.localeCompare(b, 'pt-BR'));
+            const anos = [...new Set(dadosGrafico.map(item => item.ANO))].toSorted();
+
+            const datasets = anos.map((ano, index) => {
+                const dadosAnuais = rotulos.map(rotulo => {
+                    const resultado = dadosGrafico.find(item => item.NOME === rotulo && item.ANO === ano);
+                    return resultado ? resultado["AREA (HA)"] : 0;
+                });
+
+                return {
+                    label: `Ano ${ano}`,
+                    data: dadosAnuais,
+                    backgroundColor: `rgba(${50 + index * 100}, ${100 + index * 50}, 200, 0.8)`,
+                    borderColor: `rgba(${50 + index * 100}, ${100 + index * 50}, 200, 1)`,
+                    borderWidth: 2,
+                    barThickness: 18,
+                    maxBarThickness: 20
+                };
+            });
+
+            const grafico = document.getElementById('grafico');
+            grafico.height = rotulos.length * datasets[0].maxBarThickness + 50;
+
+            const ctx = grafico.getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: rotulos,
+                    datasets: datasets
+                },
+                plugins: [ChartDataLabels],
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    layout: {
+                        padding: {
+                            right: 60
+                        }
+                    },
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'right',
+                            color: '#000',
+                            formatter: (value) => value.toFixed(2).replace('.', ',')
+                        },
+                        title: {
+                            display: true,
+                            text: 'Áreas por Nome e Separadas por Ano',
+                            font: {
+                                size: 24,
+                                weight: 'bold'
+                            },
+                            color: '#333',
+                            padding: {
+                                top: 10,
+                                bottom: 10
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    const year = datasets[tooltipItem.datasetIndex].label.split(' ')[1];
+                                    const value = tooltipItem.raw;
+                                    return `Ano: ${year}, Área (ha): ${value}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: false,
+                            title: {
+                                display: true,
+                                text: 'Áreas (ha)'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Nome'
+                            },
+                            categoryPercentage: 0.9,
+                            barPercentage: 0.8
+                        }
+                    }
+                }
+            });
+        </script>
+        
         <p>Para comparar os dados de <%= municipio %> com outro município, digite o nome do município e selecione a sua opção:</p>
+        <br>
         <input type="text" id="buscaMunicipio" placeholder="Digite o nome do município...">
         <ul id="listaMunicipios" class="lista-municipios" style="display:none;"></ul>
         <br>
@@ -112,6 +218,6 @@
             })
             .catch(err => console.error('Erro ao carregar o GeoJSON: ', err));
     </script>
-    
+
 </body>
 </html>
