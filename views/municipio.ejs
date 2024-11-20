@@ -55,13 +55,26 @@
             grafico.height = rotulos.length * datasets[0].maxBarThickness + 50;
 
             const ctx = grafico.getContext('2d');
+            const fullBorderPlugin = {
+                id: 'fullBorderPlugin',
+                beforeDraw: (chart) => {
+                    const ctx = chart.ctx;
+                    const canvas = chart.canvas;
+
+                    ctx.save();
+                    ctx.strokeStyle = 'black';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+                }
+            };
             const chart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: rotulos,
                     datasets: datasets
                 },
-                plugins: [ChartDataLabels],
+                plugins: [ChartDataLabels, fullBorderPlugin],
                 options: {
                     indexAxis: 'y',
                     responsive: true,
