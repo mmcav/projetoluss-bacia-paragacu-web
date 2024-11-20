@@ -2,6 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const buscaMunicipio = document.getElementById('buscaMunicipio');
     const listaMunicipios = document.getElementById('listaMunicipios');
 
+    document.addEventListener('click', (event) => {
+        if (!buscaMunicipio.contains(event.target) && event.target !== listaMunicipios) {
+            listaMunicipios.style.display = 'none';
+        }
+    });
+
     if (window.municipios && Array.isArray(window.municipios)) {
         buscaMunicipio.addEventListener('input', () => {
             const busca = normalizarTexto(buscaMunicipio.value);
