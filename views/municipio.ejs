@@ -21,7 +21,7 @@
         <h2>Código do IGBE: <em><%= codigo %></em></h2>
         <h2>Tipo de Bacia: <em><%= bacia %></em></h2>
         <br>
-        <div style="width: 100%; margin: auto;">
+        <div id="grafico-container" style="width: 100%; height: 100vh;">
             <canvas id="grafico"></canvas>
         </div>
         <br>
@@ -45,39 +45,25 @@
                     data: dadosAnuais,
                     backgroundColor: `rgba(${50 + index * 100}, ${100 + index * 50}, 200, 0.8)`,
                     borderColor: `rgba(${50 + index * 100}, ${100 + index * 50}, 200, 1)`,
-                    borderWidth: 2,
-                    barThickness: 18,
-                    maxBarThickness: 20
+                    borderWidth: 1,
+                    barThickness: Math.max(10, 30 - rotulos.length)
                 };
             });
 
             const grafico = document.getElementById('grafico');
-            grafico.height = rotulos.length * datasets[0].maxBarThickness + 50;
 
             const ctx = grafico.getContext('2d');
-            const fullBorderPlugin = {
-                id: 'fullBorderPlugin',
-                beforeDraw: (chart) => {
-                    const ctx = chart.ctx;
-                    const canvas = chart.canvas;
-
-                    ctx.save();
-                    ctx.strokeStyle = 'black';
-                    ctx.lineWidth = 2;
-                    ctx.strokeRect(0, 0, canvas.width, canvas.height);
-                    ctx.restore();
-                }
-            };
             const chart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: rotulos,
                     datasets: datasets
                 },
-                plugins: [ChartDataLabels, fullBorderPlugin],
+                plugins: [ChartDataLabels],
                 options: {
                     indexAxis: 'y',
                     responsive: true,
+                    maintainAspectRatio: false,
                     layout: {
                         padding: {
                             right: 60
@@ -88,13 +74,16 @@
                             anchor: 'end',
                             align: 'right',
                             color: '#000',
-                            formatter: (value) => value.toFixed(2).replace('.', ',')
+                            formatter: (value) => value.toFixed(2).replace('.', ','),
+                            font: {
+                                size: 9 + Math.floor(window.innerWidth / 1920 * 3)
+                            },
                         },
                         title: {
                             display: true,
                             text: 'Áreas por Nome e Separadas por Ano',
                             font: {
-                                size: 24,
+                                size: 12 + Math.floor(window.innerWidth / 1920 * 12),
                                 weight: 'bold'
                             },
                             color: '#333',
@@ -105,7 +94,12 @@
                         },
                         legend: {
                             display: true,
-                            position: 'top'
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 10 + Math.floor(window.innerWidth / 1920 * 2)
+                                }
+                            }
                         },
                         tooltip: {
                             callbacks: {
@@ -123,6 +117,9 @@
                             title: {
                                 display: true,
                                 text: 'Áreas (ha)'
+                            },
+                            ticks: {
+                                padding: 5
                             }
                         },
                         y: {
@@ -132,7 +129,13 @@
                                 text: 'Nome'
                             },
                             categoryPercentage: 0.9,
-                            barPercentage: 0.8
+                            barPercentage: 0.8,
+                            ticks: {
+                                font: {
+                                    size: 9 + Math.floor(window.innerWidth / 1920 * 3)
+                                },
+                                padding: 15
+                            }
                         }
                     }
                 }

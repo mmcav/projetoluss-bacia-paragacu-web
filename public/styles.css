@@ -212,3 +212,22 @@ table tr:nth-child(even) {
 .back-to-top:focus {
     outline: none;
 }
+
+
+#grafico-container {
+    border: 1px solid black;
+    width: 100%;
+}
+  
+@media (max-width: 768px) {
+    #grafico-container {
+        height: 50vh;
+    }
+}
+  
+@media (min-width: 769px) {
+    #grafico-container {
+        height: 60vh;
+    }
+}
+  
