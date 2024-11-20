@@ -134,11 +134,6 @@
         <p>Ou, se preferir, procure o município no mapa abaixo:</p>
         <br>
         <div id="map"></div>
-        
-        <script>
-            window.municipios = <%- JSON.stringify(municipios) %>;
-        </script>
-
         <br>
         <table>
             <thead>
@@ -175,6 +170,10 @@
         </a>
     </div>
 
+    <script>
+        window.municipios = <%- JSON.stringify(municipios) %>;
+    </script>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         var municipiosComCodigo = <%- JSON.stringify(municipiosComCodigo) %>;
@@ -187,10 +186,27 @@
         fetch('/data/MunicipiosBacia.geojson')
             .then(response => response.json())
             .then(geojson => {
-                var map = L.map('map');
+                var map = L.map('map', {
+                    scrollWheelZoom: false,
+                    zoomControl: true,
+                    dragging: true,
+                    touchZoom: true
+                });
 
                 var bounds = L.geoJSON(geojson).getBounds();
                 map.fitBounds(bounds);
+
+                map.on('touchstart', function (e) {
+                    if (e.touches.length === 1) {
+                        map.dragging.disable();
+                    } else if (e.touches.length > 1) {
+                        map.dragging.enable();
+                    }
+                });
+
+                map.on('touchend', function () {
+                    map.dragging.enable();
+                });
 
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
