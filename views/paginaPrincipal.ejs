@@ -53,31 +53,22 @@
         fetch('/data/MunicipiosBacia.geojson')
             .then(response => response.json())
             .then(geojson => {
+                var bounds = L.geoJSON(geojson).getBounds();
                 var map = L.map('map', {
                     scrollWheelZoom: false,
                     zoomControl: true,
                     dragging: true,
-                    touchZoom: true
+                    dragging: !L.Browser.mobile,
+                    touchZoom: true,
+                    maxBounds: bounds,
+                    maxBoundsViscosity: 1.0,
                 });
 
-                var bounds = L.geoJSON(geojson).getBounds();
                 map.fitBounds(bounds);
 
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 }).addTo(map);
-
-                map.on('touchstart', function (e) {
-                    if (e.touches.length === 1) {
-                        map.dragging.disable();
-                    } else if (e.touches.length > 1) {
-                        map.dragging.enable();
-                    }
-                });
-
-                map.on('touchend', function () {
-                    map.dragging.enable();
-                });
 
                 L.geoJSON(geojson, {
                     onEachFeature: function (feature, layer) {
