@@ -183,6 +183,13 @@ table tr:nth-child(even) {
     color: #333;
 }
 
+@media (max-width: 768px) {
+    .help-button {
+        top: 10px;
+        right: 10px;
+    }
+}
+
 /* botão para retornar ao topo */
 
 .back-to-top {
