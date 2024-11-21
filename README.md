@@ -1,8 +1,8 @@
-# Páginas do Projeto LUSS
+# Projeto LUSS - Dados dos Municípios da Bacia Hidrográfica do Rio Paraguaçu
 
-Aplicativo para entregar páginas contendo dados obtidos do banco de dados, utilizando o Node Express e o templating engine 'ejs'.
+Este site tem como objetivo aumentar o alcance dos dados e análises produzidos por grupos de pesquisa da Unifacs dos municípios que pertencem à Bacia Hidrográfica do Rio Paraguaçu.
 
-No momento possui apenas rotas para entregar as páginas dos municípios.
+O projeto foi desenvolvido utilizando o NodeJS Express e o templating engine 'ejs'.
 
 To do:
 - Páginas de erro.
