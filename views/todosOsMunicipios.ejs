@@ -22,17 +22,21 @@
             <canvas id="grafico"></canvas>
         </div>
         <br>
-        <select id="dropdownMenu" onchange="mudarPlaceholder()">
+        <br>
+        <p>Utilize as opções abaixo para filtrar os dados da tabela.</p>
+        <br>
+        <select id="dropdownMenu" onchange="mudarPlaceholder()" class="select-dropdown">
             <option value="municipio" selected>Município</option>
             <option value="codigo">Código do IBGE</option>
             <option value="nome">Nome</option>
             <option value="bacia">Bacia</option>
         </select>
         <input type="text" id="searchInput" placeholder="Pesquisar por Município..." onkeyup="filtrarTabela()">
-        <button onclick="filtrarTabela()">Todos os Anos</button>
-        <button onclick="filtrarTabela(filtroAno = '2000')">2000</button>
-        <button onclick="filtrarTabela(filtroAno = '2010')">2010</button>
-        <button onclick="filtrarTabela(filtroAno = '2022')">2022</button>
+        <button onclick="filtrarTabela()" class="botao-ano">Todos os Anos</button>
+        <button onclick="filtrarTabela(filtroAno = '2000')" class="botao-ano">2000</button>
+        <button onclick="filtrarTabela(filtroAno = '2010')" class="botao-ano">2010</button>
+        <button onclick="filtrarTabela(filtroAno = '2022')" class="botao-ano">2022</button>
+        <br>
         <br>
         <table>
             <thead>
