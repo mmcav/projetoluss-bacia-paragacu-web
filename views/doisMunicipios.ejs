@@ -24,6 +24,172 @@
         <h3>Código do IGBE: <em><%= codigoadicional %></em></h3>
         <h3>Tipo de Bacia: <em><%= baciaadicional %></em></h3>
         <br>
+        <div id="grafico-container" style="width: 100%; height: 100vh;">
+            <canvas id="grafico"></canvas>
+        </div>
+        <br>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+        <script>
+            const dadosGrafico = <%- JSON.stringify(dados) %>;
+            const dadosAdicionaisGrafico = <%- JSON.stringify(dadosadicionais) %>;
+
+            const rotulos = [...new Set([...new Set(dadosGrafico.map(item => item.NOME)), ...new Set(dadosAdicionaisGrafico.map(item => item.NOME))])].toSorted((a,b) => a.localeCompare(b, 'pt-BR'));
+            const anos = [...new Set([...new Set(dadosGrafico.map(item => item.ANO)), ...new Set(dadosGrafico.map(item => item.ANO))])].toSorted();
+
+            const municipio = <%- JSON.stringify(municipio) %>;
+            const municipioAdicional = <%- JSON.stringify(municipioadicional) %>;
+            const anosMunicipio = anos.map(ano => `${municipio} ${ano}`);
+            const anosMunicipioAdicional = anos.map(ano => `${municipioAdicional} ${ano}`);
+
+            let cores = [];
+            for (let i = 0; i < 6; i++) {
+                let red, green, blue;
+                if (i % 2 === 0) {
+                    red = 20;
+                    green = 40;
+                    blue = Math.min(100 + i * 30, 255);
+                } else {
+                    red = Math.min(180 + i * 20, 255);
+                    green = Math.min(100 + i * 10, 200);
+                    blue = 100;
+                }
+                cores.push([`rgba(${red}, ${green}, ${blue}, 0.8`, `rgba(${red}, ${green}, ${blue}, 1`], );
+            }
+
+            console.log(cores);
+
+            const tamanhoBarra = Math.max(5, Math.floor((30 - rotulos.length) / 2));
+
+            let datasets = anosMunicipio.map((municipioAno, index) => {
+                const ano = municipioAno.slice(-4);
+                const dadosAnuais = rotulos.map(rotulo => {
+                    const resultado = dadosGrafico.find(item => item.NOME === rotulo && item.ANO == ano);
+                    return resultado ? resultado["AREA (HA)"] : 0;
+                });
+
+                return dadosAnuais;
+            });
+
+            datasets = datasets.concat(anosMunicipioAdicional.map((municipioAno, index) => {
+                const ano = municipioAno.slice(-4);
+                const dadosAnuais = rotulos.map(rotulo => {
+                    const resultado = dadosAdicionaisGrafico.find(item => item.NOME === rotulo && item.ANO == ano);
+                    return resultado ? resultado["AREA (HA)"] : 0;
+                });
+
+                return dadosAnuais;
+            }));
+
+            datasets = [datasets[0], datasets[3], datasets[1], datasets[4], datasets[2], datasets[5]];
+
+            datasets = datasets.map((dadosAnuais, index) => {
+                const rotulo = (index % 2 === 0) ? `${municipio} ${anos[Math.floor(index / 2)]}` : `${municipioAdicional} ${anos[Math.floor(index / 2)]}`;
+                return {
+                    label: rotulo,
+                    data: dadosAnuais,
+                    backgroundColor: cores[index][0],
+                    borderColor: cores[index][1],
+                    borderWidth: 1,
+                    barThickness: tamanhoBarra
+                };
+            });
+
+            console.log(datasets);
+
+            const grafico = document.getElementById('grafico');
+
+            const ctx = grafico.getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: rotulos,
+                    datasets: datasets
+                },
+                plugins: [ChartDataLabels],
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            right: 60
+                        }
+                    },
+                    plugins: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'right',
+                            color: '#000',
+                            formatter: (value) => value.toFixed(2).replace('.', ','),
+                            font: {
+                                size: 8 + Math.floor(window.innerWidth / 1920 * 3)
+                            },
+                        },
+                        title: {
+                            display: true,
+                            text: 'Áreas por Nome e Separadas por Ano',
+                            font: {
+                                size: 12 + Math.floor(window.innerWidth / 1920 * 12),
+                                weight: 'bold'
+                            },
+                            color: '#333',
+                            padding: {
+                                top: 10,
+                                bottom: 10
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 10 + Math.floor(window.innerWidth / 1920 * 2)
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    const cidadeAno = datasets[tooltipItem.datasetIndex].label;
+                                    const value = tooltipItem.raw;
+                                    return `${cidadeAno}, Área (ha): ${value}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: false,
+                            title: {
+                                display: true,
+                                text: 'Áreas (ha)'
+                            },
+                            ticks: {
+                                padding: 5
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Nome'
+                            },
+                            categoryPercentage: 0.9,
+                            barPercentage: 0.8,
+                            ticks: {
+                                font: {
+                                    size: 9 + Math.floor(window.innerWidth / 1920 * 3)
+                                },
+                                padding: 15
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+
         <table>
             <thead>
                 <tr>
