@@ -213,6 +213,7 @@ table tr:nth-child(even) {
     outline: none;
 }
 
+/* gráficos de barra */
 
 #grafico-container {
     border: 1px solid black;
@@ -230,4 +231,24 @@ table tr:nth-child(even) {
         height: 60vh;
     }
 }
-  
+
+/* link retorno */
+
+.link,
+.link-voltar {
+    color: #007bff;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.link:hover,
+.link-voltar:hover {
+    color: #0056b3;
+}
+
+.link-voltar::before {
+    content: '\2190';
+    margin-right: 5px;
+}
