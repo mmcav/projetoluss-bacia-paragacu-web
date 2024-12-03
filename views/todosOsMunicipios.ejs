@@ -80,8 +80,8 @@
     <script>
         const dadosGrafico = <%- JSON.stringify(dadosGrafico) %>;
 
-        const rotulos = [...new Set(dadosGrafico.map(item => item.NOME))].toSorted((a,b) => a.localeCompare(b, 'pt-BR'));
-        const anos = [...new Set(dadosGrafico.map(item => item.ANO))].toSorted();
+        const rotulos = [...new Set(dadosGrafico.map(item => item.NOME))].sort((a,b) => a.localeCompare(b, 'pt-BR'));
+        const anos = [...new Set(dadosGrafico.map(item => item.ANO))].sort();
 
         const datasets = anos.map((ano, index) => {
             const dadosAnuais = rotulos.map(rotulo => {
@@ -95,12 +95,17 @@
                 backgroundColor: `rgba(${50 + index * 100}, ${100 + index * 50}, 200, 0.8)`,
                 borderColor: `rgba(${50 + index * 100}, ${100 + index * 50}, 200, 1)`,
                 borderWidth: 1,
-                barThickness: Math.max(10, 30 - rotulos.length)
+                //barThickness: Math.max(10, 30 - rotulos.length)
+                barThickness: 20
             };
         });
 
-        const grafico = document.getElementById('grafico');
+        const divGrafico = document.getElementById('grafico-container');
+        const x = (window.innerWidth > window.innerHeight) ? 200 : 250;
+        divGrafico.style.height = Math.max(40, Math.trunc(x * rotulos.length / 19)) + 'vh';
 
+        const grafico = document.getElementById('grafico');
+        
         const ctx = grafico.getContext('2d');
         const chart = new Chart(ctx, {
             type: 'bar',

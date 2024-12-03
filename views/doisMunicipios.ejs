@@ -36,8 +36,8 @@
             const dadosGrafico = <%- JSON.stringify(dados) %>;
             const dadosAdicionaisGrafico = <%- JSON.stringify(dadosadicionais) %>;
 
-            const rotulos = [...new Set([...new Set(dadosGrafico.map(item => item.NOME)), ...new Set(dadosAdicionaisGrafico.map(item => item.NOME))])].toSorted((a,b) => a.localeCompare(b, 'pt-BR'));
-            const anos = [...new Set([...new Set(dadosGrafico.map(item => item.ANO)), ...new Set(dadosGrafico.map(item => item.ANO))])].toSorted();
+            const rotulos = [...new Set([...new Set(dadosGrafico.map(item => item.NOME)), ...new Set(dadosAdicionaisGrafico.map(item => item.NOME))])].sort((a,b) => a.localeCompare(b, 'pt-BR'));
+            const anos = [...new Set([...new Set(dadosGrafico.map(item => item.ANO)), ...new Set(dadosGrafico.map(item => item.ANO))])].sort();
 
             const municipio = <%- JSON.stringify(municipio) %>;
             const municipioAdicional = <%- JSON.stringify(municipioadicional) %>;
@@ -58,8 +58,6 @@
                 }
                 cores.push([`rgba(${red}, ${green}, ${blue}, 0.8`, `rgba(${red}, ${green}, ${blue}, 1`], );
             }
-
-            console.log(cores);
 
             const tamanhoBarra = Math.max(5, Math.floor((30 - rotulos.length) / 2));
 
@@ -93,11 +91,14 @@
                     backgroundColor: cores[index][0],
                     borderColor: cores[index][1],
                     borderWidth: 1,
-                    barThickness: tamanhoBarra
+                    //barThickness: tamanhoBarra
+                    barThickness: 10
                 };
             });
 
-            console.log(datasets);
+            const divGrafico = document.getElementById('grafico-container');
+            const x = (window.innerWidth > window.innerHeight) ? 200 : 250;
+            divGrafico.style.height = Math.max(40, Math.trunc(x * rotulos.length / 19)) + 'vh';
 
             const grafico = document.getElementById('grafico');
 
