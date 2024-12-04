@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body id="top">
+    <div class="background"></div>
     <div class="container">
         <a href="/" class="link-voltar">Voltar à pagina anterior</a>
         <br>
@@ -22,7 +23,7 @@
         <h2>Código do IGBE: <em><%= codigo %></em></h2>
         <h2>Tipo de Bacia: <em><%= bacia %></em></h2>
         <br>
-        <div id="grafico-container" style="width: 100%; height: 100vh;">
+        <div id="grafico-container" style="width: 100%; height: 100vh; background-color: #f9f9f9;">
             <canvas id="grafico"></canvas>
         </div>
         <br>
@@ -157,28 +158,30 @@
         <br>
         <div id="map"></div>
         <br>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Ano</th>
-                    <th>Área (ha)</th>
-                    <th>Alteração (Valor Absoluto, em ha)</th>
-                    <th>Alteração (Valor Relativo, em %)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% dados.forEach(dado => { %>
+        <div class="table-container">
+            <table>
+                <thead>
                     <tr>
-                        <td><%= dado["NOME"] %></td>
-                        <td><%= dado["ANO"] %></td>
-                        <td name="area"><%= dado["AREA (HA)"] %></td>
-                        <td class="comparacao"><%= dado["ABSOLUTO"] %></td>
-                        <td class="comparacao"><%= dado["RELATIVO"] %></td>
+                        <th>Nome</th>
+                        <th>Ano</th>
+                        <th>Área (ha)</th>
+                        <th>Alteração (Valor Absoluto, em ha)</th>
+                        <th>Alteração (Valor Relativo, em %)</th>
                     </tr>
-                <% }) %>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <% dados.forEach(dado => { %>
+                        <tr>
+                            <td><%= dado["NOME"] %></td>
+                            <td><%= dado["ANO"] %></td>
+                            <td name="area"><%= dado["AREA (HA)"] %></td>
+                            <td class="comparacao"><%= dado["ABSOLUTO"] %></td>
+                            <td class="comparacao"><%= dado["RELATIVO"] %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
         <br>
 
         <button id="help-button" class="help-button">?</button>

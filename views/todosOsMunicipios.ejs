@@ -12,13 +12,14 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body id="top">
+    <div class="background"></div>
     <div class="container">
         <a href="/" class="link-voltar">Voltar à pagina anterior</a>
         <br>
         <br>
         <h1>Dados de Todos os Municípios</h1>
         <br>
-        <div id="grafico-container" style="width: 100%; height: 100vh;">
+        <div id="grafico-container" style="width: 100%; height: 100vh; background-color: #f9f9f9;">
             <canvas id="grafico"></canvas>
         </div>
         <br>
@@ -38,30 +39,32 @@
         <button onclick="filtrarTabela(filtroAno = '2022')" class="botao-ano">2022</button>
         <br>
         <br>
-        <table>
-            <thead>
-                <tr>
-                    <th>Município</th>
-                    <th>Código do IBGE</th>
-                    <th>Ano</th>
-                    <th>Área (ha)</th>
-                    <th>Nome</th>
-                    <th>Bacia</th>
-                </tr>
-            </thead>
-            <tbody id="data-table">
-                <% dados.forEach(dado => { %>
+        <div class="table-container">
+            <table>
+                <thead>
                     <tr>
-                        <td><%= dado["MUNICIPIO"] %></td>
-                        <td><%= dado["CODIGO"] %></td>
-                        <td><%= dado["ANO"] %></td>
-                        <td name="area"><%= dado["AREA (HA)"] %></td>
-                        <td><%= dado["NOME"] %></td>
-                        <td><%= dado["BACIA"] %></td>
+                        <th>Município</th>
+                        <th>Código do IBGE</th>
+                        <th>Ano</th>
+                        <th>Área (ha)</th>
+                        <th>Nome</th>
+                        <th>Bacia</th>
                     </tr>
-                <% }) %>
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="data-table">
+                    <% dados.forEach(dado => { %>
+                        <tr>
+                            <td><%= dado["MUNICIPIO"] %></td>
+                            <td><%= dado["CODIGO"] %></td>
+                            <td><%= dado["ANO"] %></td>
+                            <td name="area"><%= dado["AREA (HA)"] %></td>
+                            <td><%= dado["NOME"] %></td>
+                            <td><%= dado["BACIA"] %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
         <br>
 
         <button id="help-button" class="help-button">?</button>

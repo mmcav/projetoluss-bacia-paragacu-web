@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 celula.classList.add('negativo');
             }
-            celula.textContent = valor.toString().replace('.', ',');
+            celula.textContent = valor.toFixed(2).toString().replace('.', ',');
         }
     });
 
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (celula.textContent === "") {
             celula.textContent = '\u2014';
         } else {
-            celula.textContent = parseFloat(celula.textContent).toString().replace('.', ',');
+            celula.textContent = parseFloat(celula.textContent).toFixed(2).toString().replace('.', ',');
         }
     });
 });
